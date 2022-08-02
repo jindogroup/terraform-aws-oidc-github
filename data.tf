@@ -26,7 +26,7 @@ data "aws_iam_policy_document" "assume_role" {
       values = [
         "sts.amazonaws.com"
       ]
-      variable = "token.actions.githubusercontent.com:sub"
+      variable = "token.actions.githubusercontent.com:aud"
     }
 
     principals {
