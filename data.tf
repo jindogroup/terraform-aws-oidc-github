@@ -24,8 +24,7 @@ data "aws_iam_policy_document" "assume_role" {
     condition {
       test = "StringLike"
       values = [
-        for repo in var.github_repositories :
-        "repo:%{if length(regexall(":+", repo)) > 0}${repo}%{else}${repo}:*%{endif}"
+        "sts.amazonaws.com"
       ]
       variable = "token.actions.githubusercontent.com:sub"
     }
