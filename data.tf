@@ -14,6 +14,10 @@
 
 data "aws_partition" "current" {}
 
+data "tls_certificate" "github" {
+  url = "https://token.actions.githubusercontent.com/.well-known/openid-configuration"
+}
+
 data "aws_iam_policy_document" "assume_role" {
   count = var.enabled ? 1 : 0
 
