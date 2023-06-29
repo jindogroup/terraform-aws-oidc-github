@@ -71,7 +71,6 @@ resource "aws_iam_openid_connect_provider" "github" {
   )
 
   tags            = var.tags
-  thumbprint_list = [var.github_thumbprint]
   url             = "https://token.actions.githubusercontent.com"
   thumbprint_list = distinct(
     concat(
