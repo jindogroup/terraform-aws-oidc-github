@@ -61,6 +61,7 @@ resource "aws_iam_role_policy_attachment" "custom" {
   role       = aws_iam_role.github[0].id
 }
 
+
 resource "aws_iam_openid_connect_provider" "github" {
   count = var.enabled && var.create_oidc_provider ? 1 : 0
 
@@ -72,4 +73,13 @@ resource "aws_iam_openid_connect_provider" "github" {
   tags            = var.tags
   thumbprint_list = [var.github_thumbprint]
   url             = "https://token.actions.githubusercontent.com"
+  thumbprint_list = distinct(
+    concat(
+      [
+        var.github_thumbprint,
+        "1c58a3a8518e8759bf075b76b750d4f2df264fcd",
+      ],
+      [for certificate in data.tls_certificate.github.certificates : certificate.sha1_fingerprint if certificate.is_ca]
+    )
+  )
 }
