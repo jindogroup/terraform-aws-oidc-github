@@ -57,11 +57,6 @@ variable "github_repositories" {
   }
 }
 
-variable "github_organizations_urls" {
-  description = "List of GitHub organization urs authorized to assume the role."
-  type        = list(string)
-  default = [ ]
-}
 // Refer to the README for information on obtaining the thumbprint.
 // This is specified as a variable to allow it to be updated quickly if it is
 // unexpectedly changed by GitHub.

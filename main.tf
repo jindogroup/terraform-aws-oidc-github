@@ -66,9 +66,9 @@ resource "aws_iam_openid_connect_provider" "github" {
   count = var.enabled && var.create_oidc_provider ? 1 : 0
 
   client_id_list = concat(
-    var.github_organizations_urls == [] ?  [for org in local.github_organizations : "https://github.com/${org}"]: var.github_organizations_urls,
-    ["sts.amazonaws.com"])
-
+    [for org in local.github_organizations : "https://github.com/${org}"],
+    ["sts.amazonaws.com"]
+  )
 
   tags            = var.tags
   url             = "https://token.actions.githubusercontent.com"
@@ -81,4 +81,7 @@ resource "aws_iam_openid_connect_provider" "github" {
       [for certificate in data.tls_certificate.github.certificates : certificate.sha1_fingerprint if certificate.is_ca]
     )
   )
+  lifecycle {
+    ignore_changes = [ client_id_list  ]
+  }
 }
