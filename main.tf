@@ -65,10 +65,10 @@ resource "aws_iam_role_policy_attachment" "custom" {
 resource "aws_iam_openid_connect_provider" "github" {
   count = var.enabled && var.create_oidc_provider ? 1 : 0
 
-  client_id_list = concat(
+  client_id_list = var.github_organizations_urls != [] ? concat(
     [for org in local.github_organizations : "https://github.com/${org}"],
-    ["sts.amazonaws.com"]
-  )
+    ["sts.amazonaws.com"]) : var.github_organizations_urls
+
 
   tags            = var.tags
   url             = "https://token.actions.githubusercontent.com"
